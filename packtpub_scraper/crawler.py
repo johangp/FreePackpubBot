@@ -13,13 +13,14 @@ def get_book_title(response_soup):
 def get_book_description(response_soup):
     description_html = response_soup.find("div", {"class": "dotd-main-book-summary float-left"})
     description_data = description_html.findAll("div", {"class": ""})
-    book = {}
+    book = dict()
     book['description'] = description_data[0].text.strip()
-    for num, description_key in enumerate(description_data[1].findAll("li")):
-        book['book_key' + str(num)] = description_key
+    if len(description_data) > 1:
+        for num, description_key in enumerate(description_data[1].findAll("li")):
+            book['book_key' + str(num)] = description_key
     return book
 
 
 def get_book_image(response_soup):
-    return 'https:' + response_soup.find("img", {"class": "bookimage"}).get("src")
-
+    book_url = 'https:' + response_soup.find("img", {"class": "bookimage"}).get("src")
+    return book_url.replace(" ", "%20")

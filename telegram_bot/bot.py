@@ -16,17 +16,16 @@ def check_updates():
             if 'chat' in message['message']:
                 chat = message['message']['chat']
                 users_list.append({'name': chat['first_name'], 'id': chat['id']})
-
     return users_list
 
 
 def send_message(chat_id, text):
     method = 'sendMessage'
     response = requests.post(url='https://api.telegram.org/bot{0}/{1}'.format(token_bot, method),
-                             data={'chat_id': chat_id, 'text': text}).json()
+                             data={'chat_id': chat_id, 'text': text, 'parse_mode': 'HTML'}).json()
     print response
 
 
-while True:
-    for user in check_updates():
-        send_message(user['id'], 'Hi!' + user['name'])
+# while True:
+#     for user in check_updates():
+#         send_message(user['id'], 'Hi!' + user['name'])
