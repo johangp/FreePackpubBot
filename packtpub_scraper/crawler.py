@@ -7,17 +7,16 @@ def get_response():
 
 
 def get_book_title(response_soup):
-    return response_soup.find("div", {"class": "dotd-title"}).h2.text.strip()
+    return "&#8594; " + response_soup.find("div", {"class": "dotd-title"}).h2.text.strip() + ": \n\n"
 
 
 def get_book_description(response_soup):
     description_html = response_soup.find("div", {"class": "dotd-main-book-summary float-left"})
     description_data = description_html.findAll("div", {"class": ""})
-    book = dict()
-    book['description'] = description_data[0].text.strip()
+    book = description_data[0].text.strip() + "\n\n"
     if len(description_data) > 1:
         for num, description_key in enumerate(description_data[1].findAll("li")):
-            book['book_key' + str(num)] = description_key
+            book = book + "&#160; &#160; &#8226; " + description_key.text + "\n"
     return book
 
 
